@@ -1,0 +1,20 @@
+.a {
+  margin-top: 10px;
+}
+
+.b {
+  margin: 0 -15px;
+}
+
+.c,
+.d {
+  margin: 0 15px;
+}
+
+.c {
+  width: 33.3333%;
+}
+
+.d {
+  width: 41.6667%;
+}

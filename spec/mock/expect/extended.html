@@ -1,0 +1,88 @@
+<div ui-view class="Groups container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Groups</h1>
+
+            <nav class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="form-label space-left-sm">Course</label>
+                                <div class="form-state-control">
+                                    <select class="form-control" ng-model="vm.course" ng-change="vm.courseChanged()"
+                                            ng-options="course as course.name for course in vm.courses">
+                                        <option value="">all</option>
+                                    </select>
+                                </div>
+
+                                <label class="form-label space-left-sm">Semester</label>
+                                <div class="form-state-control">
+                                    <select class="form-control" ng-model="vm.semester"
+                                            ng-options="semester for semester in vm.semesters" ng-disabled="!vm.course">
+                                        <option value="">all</option>
+                                    </select>
+                                </div>
+
+                                <label class="form-label space-left-sm">Group type</label>
+                                <div class="form-state-control">
+                                    <select class="form-control" ng-model="vm.subjectType"
+                                            ng-options="type as type.name for type in vm.subjectTypes">
+                                        <option value="">all</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group btn-group">
+                                <button class="btn btn-success" type="button" ng-click="vm.addGroupModal()">
+                                    <i class="glyphicon glyphicon-plus"></i> Add group
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="table-responsive">
+                <div ng-show="!vm.filteredGroups.length" class="panel panel-default">
+                    <div class="panel-body">
+                        <span class="glyphicon glyphicon-ban-circle space-right-sm text-lg text-muted"></span>
+                        No results.
+                    </div>
+                </div>
+                <div ng-show="vm.filteredGroups.length">
+                    <table class="table table-hover table-bordered table-linked">
+                        <thead>
+                        <th>course</th>
+                        <th>semester</th>
+                        <th>group nr</th>
+                        <th>type</th>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="group in vm.filteredGroups | orderBy: ['courseName', 'year', 'semester', 'name'] | filter: vm.pageFilter track by $index">
+                            <td><a ui-sref="app.groups.group({groupsId: group.groupsId})">{{group.course.name}}
+                                <small class="text-muted">{{group.course.type.name}}</small>
+                            </a></td>
+                            <td><a ui-sref="app.groups.group({groupsId: group.groupsId})">{{group.semester}}</a></td>
+                            <td><a ui-sref="app.groups.group({groupsId: group.groupsId})"><strong>{{group.number}}<span
+                                    ng-show="group.overdue.active" class="text-danger"
+                                    tooltip="Przedmiot: {{group.overdue.subject.name}}"> ITN</span></strong></a></td>
+                            <td><a ui-sref="app.groups.group({groupsId: group.groupsId})">{{group.type.name}}</a></td>
+                        </tr>
+                        </tbody>
+                        <tfoot ng-show="vm.pagination.pages > 1">
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <pagination total-items="vm.pagination.total" ng-model="vm.pagination.page"
+                                            items-per-page="vm.pagination.pageSize" max-size="10" boundary-links="true"
+                                            rotate="false" first-text="&laquo;" last-text="&raquo;"
+                                            previous-text="&lsaquo;" next-text="&rsaquo;"></pagination>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
