@@ -28,5 +28,8 @@
     "babel-cli": "^6.5.1",
     "babel-preset-es2015": "^6.5.0",
     "css": "^2.2.1"
+  },
+  "dependencies": {
+    "parse5": "^2.1.5"
   }
 }
