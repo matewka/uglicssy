@@ -16,7 +16,7 @@ describe('Uglicssy', function () {
       expect(bundle.convert(originalCss, 'css')).toEqual(expectedCss);
     });
 
-    iit('should convert html string', function () {
+    it('should convert html string', function () {
       const bundle = Uglicssy.bundle();
 
       expect(bundle.convert(originalHtml, 'html')).toEqual(expectedHtml);

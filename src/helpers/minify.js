@@ -20,8 +20,6 @@ export default (className, classes) => {
     found = classes.list.slice(classes.list.length - 1)[0];
   }
 
-  console.log(classes)
-
   classes.lastIndex++;
 
   return found.minified;

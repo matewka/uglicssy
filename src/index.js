@@ -1,8 +1,20 @@
 'use strict';
 
-import convertCss from './converters/css.converter';
-import convertHtml from './converters/html.converter';
 import Classes from './classes/classes.class';
+
+import defaultCssConverter from './converters/css/default.css.converter.js';
+import defaultHtmlConverter from './converters/html/default.html.converter';
+//import defaultJsConverter from './converters/js/default.js.converter';
+
+import cssProcessor from './helpers/processors/css.processor';
+import htmlProcessor from './helpers/processors/html.processor';
+//import jsProcessor from './helpers/processors/js.processor';
+
+const converters = {
+  css: [defaultCssConverter],
+  html: [defaultHtmlConverter],
+  //js: [defaultJsConverter]
+};
 
 module.exports = class Uglicssy {
   static bundle() {
@@ -15,11 +27,15 @@ module.exports = class Uglicssy {
 
   convert(contents, type) {
     if (type === 'css') {
-      return convertCss(contents, this.classes);
+      return cssProcessor(contents, this.classes, converters.css);
     }
 
     if (type === 'html') {
-      return convertHtml(contents, this.classes);
+      return htmlProcessor(contents, this.classes, converters.html);
     }
+
+    //if (type === 'js') {
+    //  return jsProcessor(contents, this.classes, converters.js);
+    //}
   }
 };

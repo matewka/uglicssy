@@ -6,24 +6,14 @@
  perform stringify operation
 */
 import * as html from 'parse5';
-import ClassesItem from '../classes/classesItem.class';
-import minify from '../helpers/minify';
 
-export default (contents, classes) => {
+export default function defaultHtmlConverter(contents, classes, converters) {
   const htmlAst = html.parse(contents);
 
   function processNode(node) {
-    if (node.attrs && node.attrs.length) {
-      node.attrs = node.attrs.map((attr) => {
-        if (attr.name === 'class') {
-          attr.value = attr.value.split(' ').map((className) => {
-            return minify(className, classes);
-          }).join(' ');
-        }
-
-        return attr;
-      });
-    }
+    node = converters.reduce((convertedNode, converter) => {
+      return converter(convertedNode, classes);
+    }, node);
 
     if (node.childNodes && node.childNodes.length) {
       node.childNodes = node.childNodes.map((childNode) => processNode(childNode));
