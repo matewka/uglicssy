@@ -6,11 +6,11 @@ $('.other-class').hide();
 $('.btn')
   .queue()
   //css
-  .addClass("b")
+  .addClass("b c")
   .show();
 
 //css
 $(".c").animate();
 
 //css
-$(".a").show();
+$(".a #hash div").show();

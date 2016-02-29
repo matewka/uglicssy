@@ -17,12 +17,16 @@ const converters = {
 };
 
 module.exports = class Uglicssy {
-  static bundle() {
-    return new this;
-  }
-
   constructor() {
     this.classes = new Classes();
+  }
+
+  static addConverter(converter, type) {
+    converters[type].push(converter);
+  }
+
+  static bundle() {
+    return new this;
   }
 
   convert(contents, type) {

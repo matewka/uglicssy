@@ -2,33 +2,56 @@
 
 import ClassesItem from '../classes/classesItem.class';
 
-export default (className, classes) => {
+export default (selectorNames, classes) => {
+  const dotNotation = selectorNames.indexOf('.') !== -1;
+
   let dotPrefix = '';
   let found;
   let modulo;
   let newClassesItem;
 
-  if (className.substr(0, 1) === '.') {
-    dotPrefix = '.';
-    className = className.substr(1);
-  }
-
-  found = classes.list.find((item) => item.className === className);
-
-  if (!found) {
-    modulo = classes.lastIndex % 36;
-
-    if (modulo < 10) {
-      classes.lastIndex += 10 - modulo;
+  function getClassName(selectorName) {
+    if (dotNotation) {
+      if (selectorName.substr(0, 1) === '.') {
+        dotPrefix = '.';
+        return selectorName.substr(1);
+      } else {
+        return null;
+      }
     }
 
-    newClassesItem = new ClassesItem(className, classes.lastIndex);
-    classes.list.push(newClassesItem);
-
-    found = classes.list.slice(classes.list.length - 1)[0];
+    return selectorName;
   }
 
-  classes.lastIndex++;
+  function minify(selectorName) {
+    const className = getClassName(selectorName);
 
-  return dotPrefix + found.minified;
+    if (className === null) {
+      return selectorName;
+    }
+
+    found = classes.list.find((item) => item.className === className);
+
+    if (!found) {
+      modulo = classes.lastIndex % 36;
+
+      if (modulo < 10) {
+        classes.lastIndex += 10 - modulo;
+      }
+
+      newClassesItem = new ClassesItem(className, classes.lastIndex);
+      classes.list.push(newClassesItem);
+
+      found = classes.list.slice(classes.list.length - 1)[0];
+    }
+
+    classes.lastIndex++;
+
+    return dotPrefix + found.minified;
+  }
+
+  return selectorNames
+    .split(' ')
+    .map((selectorName) => minify(selectorName))
+    .join(' ');
 };
