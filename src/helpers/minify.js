@@ -3,9 +3,17 @@
 import ClassesItem from '../classes/classesItem.class';
 
 export default (className, classes) => {
-  let found = classes.list.find((item) => item.className === className);
+  let dotPrefix = '';
+  let found;
   let modulo;
   let newClassesItem;
+
+  if (className.substr(0, 1) === '.') {
+    dotPrefix = '.';
+    className = className.substr(1);
+  }
+
+  found = classes.list.find((item) => item.className === className);
 
   if (!found) {
     modulo = classes.lastIndex % 36;
@@ -22,5 +30,5 @@ export default (className, classes) => {
 
   classes.lastIndex++;
 
-  return found.minified;
+  return dotPrefix + found.minified;
 };
