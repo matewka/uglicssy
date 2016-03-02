@@ -43,9 +43,9 @@ export default (selectorNames, classes) => {
       classes.list.push(newClassesItem);
 
       found = classes.list.slice(classes.list.length - 1)[0];
-    }
 
-    classes.lastIndex++;
+      classes.lastIndex++;
+    }
 
     return dotPrefix + found.minified;
   }
