@@ -16,13 +16,37 @@ const converters = {
   js: [defaultJsConverter]
 };
 
+const appRootPath = require('app-root-path');
+const fs = require('fs');
+
+let config;
+
+try {
+  const configRaw = fs.readFileSync(appRootPath + '/.uglicssyrc');
+  const configString = configRaw.toString();
+
+  if (configString) {
+    config = JSON.parse(configString);
+  }
+
+  if (config && Array.isArray(config.presets)) {
+    config.presets.forEach((preset) => {
+      require(preset);
+    });
+  }
+} catch (err) {
+  if (err.errno === -2) {
+    console.warn('Configuration file .uglicssyrc not found.');
+  } else if (err.code === 'MODULE_NOT_FOUND') {
+    console.error('Error during presets loading:', err);
+  } else {
+    console.error('Could not parse the .uglicssyrc configuration file due to the following error:', err);
+  }
+}
+
 module.exports = class Uglicssy {
   constructor() {
     this.classes = new Classes();
-  }
-
-  static addConverter(converter, type) {
-    converters[type].push(converter);
   }
 
   static bundle() {
