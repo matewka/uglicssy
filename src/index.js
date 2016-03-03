@@ -49,6 +49,10 @@ module.exports = class Uglicssy {
     this.classes = new Classes();
   }
 
+  static addConverter(converter, type) {
+    converters[type].push(converter);
+  }
+
   static bundle() {
     return new this;
   }
