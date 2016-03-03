@@ -1,8 +1,6 @@
 'use strict';
 
-import minify from '../../helpers/minify';
-
-export default (rootNode, classes) => {
+export default (rootNode, classes, minifyFn) => {
   let comment;
   let lastCommentLine = 0;
 
@@ -37,7 +35,7 @@ export default (rootNode, classes) => {
 
     if (isCallExpr(node) && node.arguments && callExprHasComment(node)) {
       node.arguments = node.arguments.map((argument) => {
-        argument.value = minify(argument.value, classes);
+        argument.value = minifyFn(argument.value, classes);
         return argument;
       });
     }
@@ -49,7 +47,7 @@ export default (rootNode, classes) => {
     }
 
     if (lastCommentLine && commentApplies(node, lastCommentLine) && node.type === 'Literal') {
-      node.value = minify(node.value, classes);
+      node.value = minifyFn(node.value, classes);
     }
 
     for (let property in node) {

@@ -15,7 +15,7 @@ export default (contents, classes, converters) => {
   function processRule(rule) {
     rule.selectors = rule.selectors.map((selector) => {
       return converters.reduce((convertedSelector, converter) => {
-        return converter(convertedSelector, classes);
+        return converter(convertedSelector, classes, minify);
       }, selector);
     });
 

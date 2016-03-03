@@ -1,13 +1,11 @@
 'use strict';
 
-import minify from '../../helpers/minify';
-
-export default function defaultHtmlConverter(node, classes) {
+export default function defaultHtmlConverter(node, classes, minifyFn) {
   if (node.attrs && node.attrs.length) {
     node.attrs = node.attrs.map((attr) => {
       if (attr.name === 'class') {
         attr.value = attr.value.split(' ').map((className) => {
-          return minify(className, classes);
+          return minifyFn(className, classes);
         }).join(' ');
       }
 
