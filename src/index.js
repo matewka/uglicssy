@@ -10,39 +10,24 @@ import cssProcessor from './helpers/processors/css.processor';
 import htmlProcessor from './helpers/processors/html.processor';
 import jsProcessor from './helpers/processors/js.processor';
 
-const converters = {
-  css: [defaultCssConverter],
-  html: [defaultHtmlConverter],
-  js: [defaultJsConverter]
-};
+import config from './helpers/config';
 
-const appRootPath = require('app-root-path');
-const fs = require('fs');
+const converters = (() => {
 
-let config;
+  const conv = {
+    css: [defaultCssConverter],
+    html: [defaultHtmlConverter],
+    js: [defaultJsConverter]
+  };
 
-try {
-  const configRaw = fs.readFileSync(appRootPath + '/.uglicssyrc');
-  const configString = configRaw.toString();
-
-  if (configString) {
-    config = JSON.parse(configString);
-  }
-
-  if (config && Array.isArray(config.presets)) {
-    config.presets.forEach((preset) => {
-      require(preset);
+  if (config && config.presetsConf) {
+    config.presetsConf.forEach((conf) => {
+      conv[conf.type].push(conf.converter);
     });
   }
-} catch (err) {
-  if (err.errno === -2) {
-    console.warn('Configuration file .uglicssyrc not found.');
-  } else if (err.code === 'MODULE_NOT_FOUND') {
-    console.error('Error during presets loading:', err);
-  } else {
-    console.error('Could not parse the .uglicssyrc configuration file due to the following error:', err);
-  }
-}
+
+  return conv;
+})();
 
 module.exports = class Uglicssy {
   constructor() {

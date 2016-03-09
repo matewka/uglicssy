@@ -1,6 +1,6 @@
 {
   "name": "uglicssy",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "description": "Npm package for minifying CSS class names.",
   "main": "dist/index.js",
   "scripts": {
