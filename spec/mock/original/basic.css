@@ -1,18 +1,27 @@
 .container {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .row {
-    margin: 0 -15px;
+  margin: 0 -15px;
 }
+
 .col-sm-4, .col-sm-5 {
-    margin: 0 15px;
+  margin: 0 15px;
 }
 
 .col-sm-4 {
-    width: 33.3333%;
+  width: 33.3333%;
 }
 
 .col-sm-5 {
-    width: 41.6667%;
+  width: 41.6667%;
+}
+
+label.form-group {
+  width: 15%;
+}
+
+input.form-control[type="text"] {
+  border-radius: 2px;
 }

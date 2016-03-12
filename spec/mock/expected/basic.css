@@ -18,3 +18,11 @@
 .d {
   width: 41.6667%;
 }
+
+label.e {
+  width: 15%;
+}
+
+input.f[type="text"] {
+  border-radius: 2px;
+}
