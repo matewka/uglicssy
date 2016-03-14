@@ -1,6 +1,6 @@
 'use strict';
 
-const cssClassRegex = /\.[a-zA-Z0-9_-]+/;
+const cssClassRegex = /\.[a-zA-Z0-9_-]+/g;
 
 export default function defaultCssConverter(selector, classes, minifyFn) {
   if (selector.indexOf('.') !== -1) {
