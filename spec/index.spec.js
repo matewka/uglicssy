@@ -1,6 +1,6 @@
 'use strict';
 
-const Uglicssy = require('../dist/index.js');
+const Uglicssy = require('../src/index.js');
 const fs = require('fs');
 
 const originalCss = fs.readFileSync('spec/mock/original/basic.css', {encoding: 'utf8'});

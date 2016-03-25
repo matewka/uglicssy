@@ -1,8 +1,10 @@
 'use strict';
 
-export default class Classes {
+class Classes {
   constructor() {
     this.lastIndex = 0;
     this.list = [];
   }
 }
+
+module.exports = Classes;

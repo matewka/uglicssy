@@ -1,10 +1,9 @@
 'use strict';
 
-import * as js from 'recast';
-import ClassesItem from '../../classes/classesItem.class.js';
-import minify from '../minify';
+const js = require('recast');
+const minify = require('../minify');
 
-export default (contents, classes, converters) => {
+function jsProcessor(contents, classes, converters) {
   const jsAst = js.parse(contents);
 
   jsAst.program.body = converters.reduce((convertedNode, converter) => {
@@ -13,3 +12,5 @@ export default (contents, classes, converters) => {
 
   return js.print(jsAst).code;
 }
+
+module.exports = jsProcessor;

@@ -1,6 +1,6 @@
 'use strict';
 
-export default function defaultHtmlConverter(node, classes, minifyFn) {
+function defaultHtmlConverter(node, classes, minifyFn) {
   if (node.attrs && node.attrs.length) {
     node.attrs = node.attrs.map((attr) => {
       if (attr.name === 'class') {
@@ -15,3 +15,5 @@ export default function defaultHtmlConverter(node, classes, minifyFn) {
 
   return node;
 }
+
+module.exports = defaultHtmlConverter;

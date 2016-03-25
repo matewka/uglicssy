@@ -5,11 +5,10 @@
  but returns raw selector string and needs
  more investigation on how to perform stringify operation
  */
-import * as css from 'css';
-import ClassesItem from '../../classes/classesItem.class';
-import minify from '../minify';
+const css = require('css');
+const minify = require('../minify');
 
-export default (contents, classes, converters) => {
+function cssProcessor(contents, classes, converters) {
   const cssAst = css.parse(contents);
 
   function processRule(rule) {
@@ -37,4 +36,6 @@ export default (contents, classes, converters) => {
   });
 
   return css.stringify(cssAst);
-};
+}
+
+module.exports = cssProcessor;

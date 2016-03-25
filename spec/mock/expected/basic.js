@@ -1,16 +1,16 @@
 //css
-var asd = "a";
+var asd = "g";
 
 $('.other-class').hide();
 
 $('.btn')
   .queue()
   //css
-  .addClass("b c")
+  .addClass("h i")
   .show();
 
 //css
-$(".c").animate();
+$(".i").animate();
 
 //css
-$(".a #hash div").show();
+$(".g #hash div").show();

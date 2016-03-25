@@ -1,10 +1,10 @@
 'use strict';
 
-import defaultCssConverter from '../converters/css/default.css.converter.js';
-import defaultHtmlConverter from '../converters/html/default.html.converter';
-import defaultJsConverter from '../converters/js/default.js.converter';
+const defaultCssConverter = require('../converters/css/default.css.converter.js');
+const defaultHtmlConverter = require('../converters/html/default.html.converter');
+const defaultJsConverter = require('../converters/js/default.js.converter');
 
-const config = {};
+let config = {};
 
 (() => {
   const appRootPath = require('app-root-path');
@@ -61,7 +61,7 @@ const config = {};
     const configString = configRaw.toString();
 
     if (configString) {
-      configRc = JSON.parse(configString);
+      config = JSON.parse(configString);
     }
   } catch (err) {
     if (err.errno === -2) {
@@ -76,4 +76,4 @@ const config = {};
   config.converters = populatePresets();
 })();
 
-export default config;
+module.exports = config;

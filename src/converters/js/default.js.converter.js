@@ -1,6 +1,6 @@
 'use strict';
 
-export default (rootNode, classes, minifyFn) => {
+function defaultJsConverter(rootNode, classes, minifyFn) {
   let comment;
   let lastCommentLine = 0;
 
@@ -67,3 +67,5 @@ export default (rootNode, classes, minifyFn) => {
 
   return convertNode(rootNode);
 }
+
+module.exports = defaultJsConverter;

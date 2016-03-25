@@ -1,8 +1,8 @@
 'use strict';
 
-import ClassesItem from '../classes/classesItem.class';
+const ClassesItem = require('../classes/classesItem.class');
 
-export default (selectorNames, classes) => {
+function minify(selectorNames, classes) {
   const dotNotation = selectorNames.indexOf('.') !== -1;
 
   let dotPrefix = '';
@@ -54,4 +54,6 @@ export default (selectorNames, classes) => {
     .split(' ')
     .map((selectorName) => minify(selectorName))
     .join(' ');
-};
+}
+
+module.exports = minify;

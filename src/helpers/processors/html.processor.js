@@ -5,10 +5,10 @@
  but needs more investigation on how to
  perform stringify operation
 */
-import * as html from 'parse5';
-import minify from '../minify';
+const html = require('parse5');
+const minify = require('../minify');
 
-export default function defaultHtmlConverter(contents, classes, converters) {
+function htmlProcessor(contents, classes, converters) {
   const htmlAst = html.parse(contents);
 
   function processNode(node) {
@@ -25,3 +25,5 @@ export default function defaultHtmlConverter(contents, classes, converters) {
 
   return html.serialize(processNode(htmlAst));
 }
+
+module.exports = htmlProcessor;

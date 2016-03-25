@@ -1,16 +1,16 @@
 'use strict';
 
-import Classes from './classes/classes.class';
+const Output = require('./helpers/output');
 
-import cssProcessor from './helpers/processors/css.processor';
-import htmlProcessor from './helpers/processors/html.processor';
-import jsProcessor from './helpers/processors/js.processor';
+const cssProcessor = require('./helpers/processors/css.processor');
+const htmlProcessor = require('./helpers/processors/html.processor');
+const jsProcessor = require('./helpers/processors/js.processor');
 
-import config from './helpers/config';
+const config = require('./helpers/config');
 
-module.exports = class Uglicssy {
+class Uglicssy {
   constructor() {
-    this.classes = new Classes();
+    this.classes = Output.getClasses();
   }
 
   static bundle() {
@@ -18,16 +18,20 @@ module.exports = class Uglicssy {
   }
 
   convert(contents, type) {
+    let converted;
+
     if (type === 'css') {
-      return cssProcessor(contents, this.classes, config.converters.css);
+      converted = cssProcessor(contents, this.classes, config.converters.css);
+    } else if (type === 'html') {
+      converted = htmlProcessor(contents, this.classes, config.converters.html);
+    } else if (type === 'js') {
+      converted = jsProcessor(contents, this.classes, config.converters.js);
     }
 
-    if (type === 'html') {
-      return htmlProcessor(contents, this.classes, config.converters.html);
-    }
+    Output.saveClasses(this.classes);
 
-    if (type === 'js') {
-      return jsProcessor(contents, this.classes, config.converters.js);
-    }
+    return converted;
   }
-};
+}
+
+module.exports = Uglicssy;
