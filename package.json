@@ -2,7 +2,7 @@
   "name": "uglicssy",
   "version": "0.2.1",
   "description": "Npm package for minifying CSS class names.",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "jasmine-node spec --color",
     "test:watch": "npm run test -- --autotest --watch src"
