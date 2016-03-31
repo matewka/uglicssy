@@ -26,7 +26,7 @@ class Output {
 
   static saveClasses(classes) {
     if (config.outputFile) {
-      const classesString = JSON.stringify(classes, null, 4);
+      const classesString = JSON.stringify(classes, null, 2);
 
       try {
         const fStat = fs.statSync(config.outputFile);
