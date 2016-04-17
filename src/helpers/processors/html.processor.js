@@ -6,6 +6,7 @@
  perform stringify operation
 */
 const html = require('parse5');
+const htmlmin = require('htmlmin');
 const minify = require('../minify');
 
 function htmlProcessor(contents, classes, converters) {
@@ -23,7 +24,7 @@ function htmlProcessor(contents, classes, converters) {
     return node;
   }
 
-  return html.serialize(processNode(htmlAst));
+  return htmlmin(html.serialize(processNode(htmlAst)));
 }
 
 module.exports = htmlProcessor;

@@ -35,7 +35,10 @@ function cssProcessor(contents, classes, converters) {
     return rule;
   });
 
-  return css.stringify(cssAst);
+  return css.stringify(cssAst, {
+    indent: '',
+    compress: true
+  });
 }
 
 module.exports = cssProcessor;

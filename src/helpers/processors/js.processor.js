@@ -1,6 +1,7 @@
 'use strict';
 
 const js = require('recast');
+const uglifyJs = require('uglify-js');
 const minify = require('../minify');
 
 function jsProcessor(contents, classes, converters) {
@@ -10,7 +11,9 @@ function jsProcessor(contents, classes, converters) {
     return converter(convertedNode, classes, minify);
   }, jsAst.program.body);
 
-  return js.print(jsAst).code;
+  const minified = uglifyJs.minify(js.print(jsAst).code, {fromString: true});
+
+  return minified.code;
 }
 
 module.exports = jsProcessor;
