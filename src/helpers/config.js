@@ -65,7 +65,7 @@ let config = {};
     }
   } catch (err) {
     if (err.errno === -2) {
-      console.warn('Configuration file .uglicssyrc not found.');
+      return;
     } else if (err.code === 'MODULE_NOT_FOUND') {
       console.error('Error during presets loading:', err);
     } else {
