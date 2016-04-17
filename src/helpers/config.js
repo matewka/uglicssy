@@ -64,11 +64,9 @@ let config = {};
       config = JSON.parse(configString);
     }
   } catch (err) {
-    if (err.errno === -2) {
-      return;
-    } else if (err.code === 'MODULE_NOT_FOUND') {
+    if (err.code === 'MODULE_NOT_FOUND') {
       console.error('Error during presets loading:', err);
-    } else {
+    } else if (err.errno !== -2) {
       console.error('Could not parse the .uglicssyrc configuration file due to the following error:', err);
     }
   }
