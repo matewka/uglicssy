@@ -33,7 +33,7 @@ function convert(srcFile) {
           let dstFile;
 
           if (fileParts.length < 2) {
-            console.error(`Could not determine file type of file ${srcFile}`);
+            console.error(`Could not determine file type of ${srcFile}`);
           } else {
             fileType = fileParts.splice(-1)[0];
             output = uglicssy.convert(data.toString(), fileType);
@@ -54,7 +54,7 @@ function convert(srcFile) {
 }
 
 program
-  .usage('[options] <input_file...> <output_file...>')
+  .usage('[options] <input_file...>')
   .parse(process.argv);
 
 if (program.args.length === 0) {
