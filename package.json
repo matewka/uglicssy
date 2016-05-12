@@ -3,6 +3,9 @@
   "version": "0.3.3",
   "description": "Npm package for minifying CSS class names.",
   "main": "src/index.js",
+  "bin": {
+    "uglicssy": "bin/index.js"
+  },
   "scripts": {
     "test": "jasmine-node spec --color",
     "test:watch": "npm run test -- --autotest --watch src"
@@ -23,6 +26,7 @@
   "homepage": "https://github.com/matewka/uglicssy#readme",
   "dependencies": {
     "app-root-path": "^1.0.0",
+    "commander": "^2.9.0",
     "css": "^2.2.1",
     "htmlmin": "0.0.6",
     "parse5": "^2.1.5",
