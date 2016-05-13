@@ -16,7 +16,7 @@ function defaultJsConverter(rootNode, classes, minifyFn) {
 
   function getCommentMarker(node) {
     return node && Array.isArray(node.comments) && node.comments.find((comment) => {
-      return comment.value && comment.value.match(/^[\s\t\n]*css/);
+      return comment.value && comment.value.match(/^[\s\t\n]*uglicssy/);
     });
   }
 

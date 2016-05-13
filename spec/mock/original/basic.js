@@ -1,16 +1,16 @@
-//css
+//uglicssy
 var asd = 'my-class';
 
 $('.other-class').hide();
 
 $('.btn')
   .queue()
-  //css
+  //uglicssy
   .addClass('warning wtf')
   .show();
 
-//css
+//uglicssy
 $('.wtf').animate();
 
-//css
+//uglicssy
 $('.my-class #hash div').show();
