@@ -86,7 +86,7 @@ You can add a configuration file `.uglicssyrc` to your project's root folder. It
   File path where you want the class names and other metadata to be saved. It is useful when you want to convert multiple files but are unable to do it in a single runtime.
 + **presets**
   
-  Thanks to **presets**, you can add new rules to *uglicssy*. For example, a `uglicss-preset-angular` preset can parse `ng-class` attributes and convert classes contained there.
+  Thanks to presets, you can add new rules to *uglicssy*. For example, a `uglicssy-preset-angular` preset can parse `ng-class` attributes and convert classes contained there.
   
   To use a preset, first you need to install it. Names of presets in the config file are the names of their NPM packages, e.g. to install `uglicssy-preset-angular` you need to
   
