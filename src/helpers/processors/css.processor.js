@@ -8,13 +8,18 @@
 const css = require('css');
 const minify = require('../minify');
 
-function cssProcessor(contents, classes, converters) {
+const Config = require('../config');
+const Verbose = require('../verbose');
+
+function cssProcessor(contents, classes) {
   const cssAst = css.parse(contents);
+  const config = new Config();
+  const verbose = Verbose.getInstance(config.rc.verbose);
 
   function processRule(rule) {
     rule.selectors = rule.selectors.map((selector) => {
-      return converters.reduce((convertedSelector, converter) => {
-        return converter(convertedSelector, classes, minify);
+      return config.rc.presets.css.reduce((convertedSelector, converter) => {
+        return converter(convertedSelector, classes, minify, verbose);
       }, selector);
     });
 

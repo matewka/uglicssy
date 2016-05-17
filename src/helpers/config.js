@@ -1,77 +1,96 @@
 'use strict';
 
+const colors = require('colors/safe');
+
+const CustomError = require('./customError');
 const defaultCssConverter = require('../converters/css/default.css.converter.js');
 const defaultHtmlConverter = require('../converters/html/default.html.converter');
 const defaultJsConverter = require('../converters/js/default.js.converter');
 
-let config = {};
+const appRootPath = require('app-root-path');
+const fs = require('fs');
 
-(() => {
-  const appRootPath = require('app-root-path');
-  const fs = require('fs');
+let rc = null;
 
-  let configRc;
+class Config {
+  constructor(options) {
+    if (rc !== null && !options) {
+      this.rc = rc;
+      return;
+    }
 
-  function isFunction(variable) {
-    return typeof variable === 'function';
-  }
+    try {
+      const configRaw = fs.readFileSync(appRootPath + '/.uglicssyrc');
+      const configString = configRaw.toString();
+      const presets = {
+        css: [defaultCssConverter],
+        html: [defaultHtmlConverter],
+        js: [defaultJsConverter]
+      };
 
-  function populatePresets() {
-    const converters = {
-      css: [defaultCssConverter],
-      html: [defaultHtmlConverter],
-      js: [defaultJsConverter]
-    };
+      let configRc;
 
-    if (configRc && configRc.presets) {
-      if (!Array.isArray(configRc.presets)) {
-        configRc.presets = [configRc.presets];
+      if (configString) {
+        configRc = JSON.parse(configString);
       }
 
-      configRc.presets.forEach((presetName) => {
-        if (!presetName) {
-          return;
+      this.rc = configRc || {};
+
+      if (configRc && configRc.presets) {
+        if (!Array.isArray(configRc.presets)) {
+          configRc.presets = [configRc.presets];
         }
 
-        let preset = require(presetName);
-
-        function addConverters(type) {
-          if (Array.isArray(preset.converters[type])) {
-            preset.converters[type].forEach((converter) => converters[type].push(converter));
-          } else if (isFunction(preset.converters[type])) {
-            converters[type].push(preset.converters[type]);
+        configRc.presets.forEach((presetName) => {
+          if (!presetName) {
+            return;
           }
-        }
 
-        if (preset && preset.converters) {
-          addConverters('css');
-          addConverters('html');
-          addConverters('js');
-        } else {
-          console.error('Uglicssy preset: ' + presetName + ' doesn\'t have the \'converters\' property.');
-        }
-      });
+          let preset;
+
+          function addConverters(type) {
+            if (Array.isArray(preset.converters[type])) {
+              preset.converters[type].forEach((converter) => presets[type].push(converter));
+            } else if (typeof preset.converters[type] === 'function') {
+              presets[type].push(preset.converters[type]);
+            }
+          }
+
+          try {
+            preset = require(presetName);
+
+            if (preset && preset.converters) {
+              addConverters('css');
+              addConverters('html');
+              addConverters('js');
+            } else {
+              console.error(`${colors.red('Uglicssy')} -> preset ${presetName} doesn't have the 'converters' property.`);
+            }
+          } catch (err) {
+            if (err.code === 'MODULE_NOT_FOUND') {
+              console.error(`${colors.red('Uglicssy')} -> Preset ${colors.yellow(presetName)} was not found. Make sure you've installed it with ${colors.yellow.italic(`npm i ${presetName}`)}`);
+            }
+
+            throw new CustomError('Early break', 567);
+          }
+        });
+      }
+
+      this.rc.presets = presets;
+
+      if (options && options.verbose) {
+        this.rc.verbose = options.verbose;
+      }
+    } catch (err) {
+      if (err.code === 567) {
+        process.exit(1);
+      } else if (err.errno !== -2) {
+        throw err;
+      }
     }
 
-    return converters;
+    rc = this.rc;
   }
+}
 
-  try {
-    const configRaw = fs.readFileSync(appRootPath + '/.uglicssyrc');
-    const configString = configRaw.toString();
-
-    if (configString) {
-      config = JSON.parse(configString);
-    }
-  } catch (err) {
-    if (err.code === 'MODULE_NOT_FOUND') {
-      console.error('Error during presets loading:', err);
-    } else if (err.errno !== -2) {
-      console.error('Could not parse the .uglicssyrc configuration file due to the following error:', err);
-    }
-  }
-
-  config.converters = populatePresets();
-})();
-
-module.exports = config;
+module.exports = Config;

@@ -2,21 +2,26 @@
 
 const Classes = require('../classes/classes.class');
 
-const config = require('./config');
+const colors = require('colors/safe');
+const Config = require('./config');
 const fs = require('fs');
 
 class Output {
-  static getClasses() {
-    if (config.outputFile) {
+  constructor() {
+    this.config = new Config();
+  }
+
+  getClasses() {
+    if (this.config.outputFile) {
       try {
-        const classesString = fs.readFileSync(config.outputFile);
+        const classesString = fs.readFileSync(this.config.outputFile);
 
         return JSON.parse(classesString);
       } catch (err) {
         if (err.errno === -2) {
           return new Classes();
         } else {
-          console.error('Uglicssy: Could not parse the output file due to the following error:', err);
+          console.error(`${colors.red('Uglicssy')} -> Could not parse the output file due to the following error: ${colors.italic(err)}`);
         }
       }
     }
@@ -24,19 +29,19 @@ class Output {
     return new Classes();
   }
 
-  static saveClasses(classes) {
-    if (config.outputFile) {
+  saveClasses(classes) {
+    if (this.config.rc.outputFile) {
       const classesString = JSON.stringify(classes, null, 2);
 
       try {
-        const fStat = fs.statSync(config.outputFile);
+        const fStat = fs.statSync(this.config.rc.outputFile);
 
         if (fStat.isFile()) {
-          fs.writeFileSync(config.outputFile, '', {flag: 'w'});
+          fs.writeFileSync(this.config.rc.outputFile, '', {flag: 'w'});
         }
       } catch (err) {}
 
-      fs.writeFileSync(config.outputFile, classesString, {flag: 'w'});
+      fs.writeFileSync(this.config.rc.outputFile, classesString, {flag: 'w'});
     }
   }
 }

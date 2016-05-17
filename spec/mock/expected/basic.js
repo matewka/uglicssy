@@ -1,1 +1,1 @@
-var asd="g";$(".other-class").hide(),$(".btn").queue().addClass("h i").show(),$(".i").animate(),$(".g #hash div").show();
+var asd="a";$(".other-class").hide(),$(".btn").queue().addClass("b c").show(),$(".c").animate(),$(".a #hash div").show();

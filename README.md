@@ -1,5 +1,7 @@
 # uglicssy
 ##### NPM package for minifying CSS *class names*.
+  This package minifies CSS, JS and HTML code but **most of all** it also minifies CSS class names.
+
 ---
 #### Installation
 ```bash
@@ -7,7 +9,11 @@ npm i uglicssy --save-dev
 ```
 
 #### Usage
-+ **CLI**
++ **CLI** 
+
+  ```bash
+  $ uglicssy [options] <input_file...>
+  ```
 
   Convert a single file. The converted code will be saved as a new file with the _uglicssy_ suffix.
   ```bash
@@ -19,7 +25,14 @@ npm i uglicssy --save-dev
   $ uglicssy src
   ```
   
-+ **script**
+##### options
+  You can use the following bash style options:
+
+  option | shortcut | description
+  ------ | -------- | -----------
+  --verbose | -v | [Verbose mode](#verbose)
+  
++ **Script**
 
   You can load the `Uglicssy` class as a module:
   
@@ -29,20 +42,24 @@ npm i uglicssy --save-dev
   
   It is an `ES6` class with the following methods:
   
-  ```javascript
-  Uglicssy.bundle();
-  ```
-  It is a static method which returns a new instance of `Uglicssy` class. Keep reference to that instance in order to process multiple files in the runtime.
+  + `public static bundle() : Uglicssy`
   
-  ```javascript
-  uglicssyInstance.convert(inputString, fileType);
-  ```
-  The method accepts 2 arguments:
-  + **inputString** is a string with CSS, HTML or JS code
-  + **fileType** must be one of the following strings:
-    + css
-    + html
-    + js
+    This is a static method which returns a new instance of `Uglicssy` class. Keep reference to that instance in order to process multiple files in the runtime.
+  
+  + `public convert(inputString : String, fileType : String[, save : Boolean]) : String`
+  
+    This is the main method for converting the code.
+    + **inputString** is a string with CSS, HTML or JS code
+    + **fileType** must be one of the following strings:
+      + css
+      + html
+      + js
+    + **save** (default: `true`) boolean value indicating whether the modified classes array should be immediately saved (see the `save` method below).
+    
+  + `public save() : undefined`
+    
+    This method saves the current classes array _synchronously_ to the output file specified in the _.uglicssyrc_. If the file is not specified, the method performs _noop_.
+    It is useful if you want to convert multiple files in a runtime without modifying the classes file in each iteration.
   
   ---
   ##### A full example
@@ -76,7 +93,7 @@ const cssSelector = '.foo .bar > p'; //uglicssy will treat `foo` and `bar` as a 
 ```javascript
 {
   "outputFile": "uglicssy.json",
-  "presets": ['uglicssy-preset-angular', 'uglicssy-preset-jquery']
+  "presets": ["uglicssy-preset-angular", "uglicssy-preset-jquery"]
 }
 ```
 
@@ -93,3 +110,6 @@ You can add a configuration file `.uglicssyrc` to your project's root folder. It
   ```bash
   npm i uglicssy-preset-angular --save-dev
   ```
++ **verbose**
+  
+  When this option is set to `true` every class conversion will be described in the console.

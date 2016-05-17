@@ -9,12 +9,17 @@ const html = require('parse5');
 const htmlmin = require('htmlmin');
 const minify = require('../minify');
 
-function htmlProcessor(contents, classes, converters) {
+const Config = require('../config');
+const Verbose = require('../verbose');
+
+function htmlProcessor(contents, classes) {
   const htmlAst = html.parse(contents);
+  const config = new Config();
+  const verbose = Verbose.getInstance(config.rc.verbose);
 
   function processNode(node) {
-    node = converters.reduce((convertedNode, converter) => {
-      return converter(convertedNode, classes, minify);
+    node = config.rc.presets.html.reduce((convertedNode, converter) => {
+      return converter(convertedNode, classes, minify, verbose);
     }, node);
 
     if (node.childNodes && node.childNodes.length) {

@@ -1,6 +1,6 @@
 'use strict';
 
-function defaultJsConverter(rootNode, classes, minifyFn) {
+function defaultJsConverter(rootNode, classes, minifyFn, verbose) {
   let comment;
   let lastCommentLine = 0;
 
@@ -47,7 +47,11 @@ function defaultJsConverter(rootNode, classes, minifyFn) {
     }
 
     if (lastCommentLine && commentApplies(node, lastCommentLine) && node.type === 'Literal') {
-      node.value = minifyFn(node.value, classes);
+      const value = minifyFn(node.value, classes);
+
+      verbose.printConverted(node.value, value, defaultJsConverter);
+      
+      node.value = value;
     }
 
     for (let property in node) {
