@@ -14,11 +14,7 @@ let rc = null;
 
 class Config {
   static init(options) {
-    const config = new Config(options);
-
-    config.initialize();
-
-    return config;
+    return new Config(options);
   }
 
   constructor(options) {
