@@ -9,10 +9,10 @@ const jsProcessor = require('./helpers/processors/js.processor');
 const Config = require('./helpers/config');
 
 class Uglicssy {
-  constructor(options) {
+  constructor() {
     this.output = new Output();
     this.classes = this.output.getClasses();
-    this.config = new Config(options);
+    this.config = new Config();
   }
 
   static bundle() {

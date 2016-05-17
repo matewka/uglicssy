@@ -25,12 +25,12 @@ npm i uglicssy --save-dev
   $ uglicssy src
   ```
   
-##### options
+  ##### options
   You can use the following bash style options:
 
   option | shortcut | description
   ------ | -------- | -----------
-  --verbose | -v | [Verbose mode](#verbose)
+  --verbose | -v | verbose mode
   
 + **Script**
 

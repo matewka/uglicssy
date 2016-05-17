@@ -5,7 +5,9 @@
 const colors = require('colors/safe');
 const program = require('commander');
 const fs = require('fs');
-const Uglicssy = require('uglicssy');
+
+const Config = require('../src/helpers/config');
+const Uglicssy = require('../src/uglicssy');
 
 let uglicssy;
 
@@ -64,9 +66,11 @@ program
 if (program.args.length === 0) {
   program.help();
 } else {
-  uglicssy = new Uglicssy({
+  Config.init({
     verbose: program.verbose
   });
+
+  uglicssy = new Uglicssy();
 
   convert(program.args[0]);
   uglicssy.save();

@@ -13,12 +13,23 @@ const fs = require('fs');
 let rc = null;
 
 class Config {
+  static init(options) {
+    const config = new Config(options);
+
+    config.initialize();
+
+    return config;
+  }
+
   constructor(options) {
     if (rc !== null && !options) {
       this.rc = rc;
-      return;
+    } else {
+      this.initialize();
     }
+  }
 
+  initialize() {
     try {
       const configRaw = fs.readFileSync(appRootPath + '/.uglicssyrc');
       const configString = configRaw.toString();
