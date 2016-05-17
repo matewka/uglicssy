@@ -25,11 +25,11 @@ class Config {
     if (rc !== null && !options) {
       this.rc = rc;
     } else {
-      this.initialize();
+      this.initialize(options);
     }
   }
 
-  initialize() {
+  initialize(options) {
     try {
       const configRaw = fs.readFileSync(appRootPath + '/.uglicssyrc');
       const configString = configRaw.toString();
